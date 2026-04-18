@@ -238,6 +238,80 @@ h2{
 .quiz .btn{background:#fff;color:var(--accent)}
 .quiz .btn:hover{background:#f0ede6;box-shadow:0 12px 28px -14px rgba(0,0,0,.4)}
 
+/* Quiz interactive */
+.quiz-box{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  min-height:460px;width:100%;
+}
+.quiz-progress{
+  display:none;gap:8px;margin-bottom:28px;
+}
+.quiz-progress.show{display:flex}
+.quiz-progress .dot{
+  width:28px;height:3px;border-radius:2px;background:rgba(255,255,255,.22);
+  transition:background .3s;
+}
+.quiz-progress .dot.active{background:#fff}
+.quiz-state{
+  display:none;width:100%;max-width:640px;text-align:center;
+}
+.quiz-state.active{display:block;animation:quizFadeIn .35s ease both}
+@keyframes quizFadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+
+.q-step{
+  letter-spacing:.15em;text-transform:uppercase;font-size:11px;font-weight:500;
+  color:rgba(255,255,255,.65);margin-bottom:18px;
+}
+.q-title{
+  font-size:clamp(22px,2.8vw,34px);font-weight:400;letter-spacing:-0.01em;
+  color:#fff;margin-bottom:36px;line-height:1.2;
+}
+.q-options{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.q-opt{
+  padding:18px 22px;border-radius:14px;
+  border:1px solid rgba(255,255,255,.22);
+  background:rgba(255,255,255,.06);color:#fff;
+  font:inherit;font-size:15px;font-weight:400;text-align:left;
+  cursor:pointer;
+  transition:background .2s,border-color .2s,transform .12s;
+}
+.q-opt:hover{background:rgba(255,255,255,.16);border-color:rgba(255,255,255,.45)}
+.q-opt:active{transform:scale(.985)}
+.q-opt:focus-visible{outline:2px solid #fff;outline-offset:2px}
+
+.result-card{
+  display:flex;align-items:center;gap:24px;
+  max-width:560px;margin:0 auto 28px;
+  background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);
+  border-radius:20px;padding:22px;text-align:left;
+}
+.result-thumb{
+  flex:0 0 120px;height:120px;border-radius:16px;
+  background:linear-gradient(135deg,#eef2ef 0%,#fbf5ef 100%);
+  display:flex;align-items:center;justify-content:center;
+  color:var(--accent);font-weight:500;letter-spacing:.04em;
+  text-transform:uppercase;font-size:13px;
+}
+.result-body{flex:1;min-width:0}
+.result-body h3{font-size:22px;font-weight:500;margin-bottom:6px;color:#fff;letter-spacing:-0.01em}
+.result-body p{color:rgba(255,255,255,.78);font-size:15px;margin-bottom:14px;line-height:1.5}
+.result-price{display:flex;align-items:baseline;gap:10px;color:#fff}
+.result-price .p-amount{font-size:22px;font-weight:500;font-feature-settings:"tnum"}
+.result-price small{color:rgba(255,255,255,.58);font-size:12.5px}
+
+.quiz .btn-outline{
+  background:transparent;color:#fff;border:1px solid rgba(255,255,255,.55);
+}
+.quiz .btn-outline:hover{background:#fff;color:var(--accent);box-shadow:0 12px 28px -14px rgba(0,0,0,.4)}
+
+@media (max-width: 640px){
+  .quiz-box{min-height:420px}
+  .q-options{grid-template-columns:1fr}
+  .result-card{flex-direction:column;text-align:center;padding:20px}
+  .result-thumb{flex:0 0 auto;width:100%;max-width:260px;height:110px}
+  .result-price{justify-content:center}
+}
+
 /* ---------- Alt bg ---------- */
 .alt-bg{background:var(--surface);border-top:1px solid var(--line-soft);border-bottom:1px solid var(--line-soft)}
 
@@ -426,10 +500,44 @@ footer .row span:first-child{color:var(--ink-soft)}
 <div class="quiz-wrap" id="quiz">
   <div class="container">
     <div class="quiz reveal">
-      <div class="eyebrow">Квиз</div>
-      <h2>Узнайте свой вектор<br>за 30 секунд</h2>
-      <p class="lead">Ответьте на 3 вопроса, чтобы понять, с чего начать поддержку.</p>
-      <a class="btn" href="#">Пройти тест <span class="arr">→</span></a>
+      <div class="quiz-box" id="quizBox">
+        <div class="quiz-progress" id="quizProgress" aria-hidden="true">
+          <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+        </div>
+
+        <!-- START -->
+        <div class="quiz-state active" data-state="start">
+          <div class="eyebrow">Квиз</div>
+          <h2>Узнайте свой вектор<br>за 30 секунд</h2>
+          <p class="lead">Ответьте на 3 вопроса.</p>
+          <button type="button" class="btn" id="quizStart">Начать <span class="arr">→</span></button>
+        </div>
+
+        <!-- QUESTION (reused) -->
+        <div class="quiz-state" data-state="question">
+          <div class="q-step" id="qStep">Вопрос 1 из 3</div>
+          <h2 class="q-title" id="qTitle"></h2>
+          <div class="q-options" id="qOptions"></div>
+        </div>
+
+        <!-- RESULT -->
+        <div class="quiz-state" data-state="result">
+          <div class="eyebrow">Ваш вектор</div>
+          <h2 style="margin-bottom:32px">Рекомендуем начать с&nbsp;этого</h2>
+          <div class="result-card">
+            <div class="result-thumb" id="resultThumb"></div>
+            <div class="result-body">
+              <h3 id="resultName"></h3>
+              <p id="resultDesc"></p>
+              <div class="result-price">
+                <span class="p-amount" id="resultPrice"></span>
+                <small>за курс 30 дней</small>
+              </div>
+            </div>
+          </div>
+          <button type="button" class="btn btn-outline" id="quizRestart">Попробовать снова</button>
+        </div>
+      </div>
     </div>
   </div>
 </div>
@@ -473,6 +581,122 @@ footer .row span:first-child{color:var(--ink-soft)}
       window.scrollTo({ top: window.innerHeight * 0.9, behavior: 'smooth' });
     });
   }
+
+  // ---- Quiz ----
+  (function initQuiz(){
+    var box = document.getElementById('quizBox');
+    if (!box) return;
+    var QUESTIONS = [
+      {
+        title: 'Что вас беспокоит в первую очередь?',
+        options: [
+          { label: 'Плохо засыпаю',  key: 'magnesium' },
+          { label: 'Часто болею',    key: 'd3k2' },
+          { label: 'Тусклая кожа',   key: 'omega3' },
+          { label: 'Всё вместе',     key: 'selenium' }
+        ]
+      },
+      {
+        title: 'Какой у вас образ жизни?',
+        options: [
+          { label: 'Много стресса',  key: 'magnesium' },
+          { label: 'Мало солнца',    key: 'd3k2' },
+          { label: 'Важна красота',  key: 'omega3' },
+          { label: 'Большой город',  key: 'selenium' }
+        ]
+      },
+      {
+        title: 'Какой результат хотите ощутить через месяц?',
+        options: [
+          { label: 'Крепкий сон',         key: 'magnesium' },
+          { label: 'Энергия и иммунитет', key: 'd3k2' },
+          { label: 'Сияющая кожа',        key: 'omega3' },
+          { label: 'Общее укрепление',    key: 'selenium' }
+        ]
+      }
+    ];
+    var PRODUCTS = {
+      magnesium: { label: 'Магний',  name: 'Магний B6',       desc: 'Глубокий сон и спокойствие.',                   price: '1 500 ₽' },
+      d3k2:      { label: 'D3 + K2', name: 'Витамин D3 + K2', desc: 'Крепкий иммунитет и кости.',                     price: '2 000 ₽' },
+      omega3:    { label: 'Омега-3', name: 'Омега-3',         desc: 'Сияние кожи и ясность ума.',                     price: '3 000 ₽' },
+      selenium:  { label: 'Селен',   name: 'Селен',           desc: 'Антиоксидантная защита и щитовидная железа.',    price: '2 500 ₽' }
+    };
+    var ORDER = ['magnesium','d3k2','omega3','selenium']; // tiebreak order: magnesium wins
+
+    var states = box.querySelectorAll('.quiz-state');
+    var progress = document.getElementById('quizProgress');
+    var dots = progress.querySelectorAll('.dot');
+    var qStep = document.getElementById('qStep');
+    var qTitle = document.getElementById('qTitle');
+    var qOptions = document.getElementById('qOptions');
+
+    var current = 0;
+    var scores = { magnesium:0, d3k2:0, omega3:0, selenium:0 };
+
+    function show(name){
+      states.forEach(function(s){ s.classList.toggle('active', s.dataset.state === name); });
+      progress.classList.toggle('show', name === 'question');
+    }
+    function resetScores(){ scores = { magnesium:0, d3k2:0, omega3:0, selenium:0 }; }
+    function updateDots(){
+      dots.forEach(function(d,i){ d.classList.toggle('active', i <= current); });
+    }
+    function renderQuestion(){
+      var q = QUESTIONS[current];
+      qStep.textContent = 'Вопрос ' + (current+1) + ' из ' + QUESTIONS.length;
+      qTitle.textContent = q.title;
+      updateDots();
+      qOptions.innerHTML = '';
+      q.options.forEach(function(opt){
+        var b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'q-opt';
+        b.textContent = opt.label;
+        b.addEventListener('click', function(){ answer(opt.key); });
+        qOptions.appendChild(b);
+      });
+      // re-trigger fade
+      var qState = box.querySelector('[data-state="question"]');
+      qState.classList.remove('active');
+      void qState.offsetWidth;
+      qState.classList.add('active');
+      progress.classList.add('show');
+    }
+    function answer(key){
+      if (scores[key] == null) return;
+      scores[key] += 1;
+      if (current < QUESTIONS.length - 1){
+        current += 1;
+        renderQuestion();
+      } else {
+        finish();
+      }
+    }
+    function finish(){
+      var best = ORDER[0], bestScore = -1;
+      ORDER.forEach(function(k){
+        if (scores[k] > bestScore){ bestScore = scores[k]; best = k; }
+      });
+      var p = PRODUCTS[best];
+      document.getElementById('resultThumb').textContent = p.label;
+      document.getElementById('resultName').textContent = p.name;
+      document.getElementById('resultDesc').textContent = p.desc;
+      document.getElementById('resultPrice').textContent = p.price;
+      show('result');
+    }
+
+    document.getElementById('quizStart').addEventListener('click', function(){
+      current = 0;
+      resetScores();
+      show('question');
+      renderQuestion();
+    });
+    document.getElementById('quizRestart').addEventListener('click', function(){
+      current = 0;
+      resetScores();
+      show('start');
+    });
+  })();
 
   if ('IntersectionObserver' in window){
     var io = new IntersectionObserver(function(entries){
