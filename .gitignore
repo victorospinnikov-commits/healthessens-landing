@@ -1,3 +1,47 @@
-.claude/
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editors / IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Node
 node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+.pnpm-store/
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Secrets / env
+.env
+.env.*
+*.pem
+*.key
+id_rsa*
+
+# Build / logs / temp
+dist/
+build/
+coverage/
 *.log
+tmp/
+*.tmp
+
+# Claude workspace
+.claude/
+_nginx.conf
+_sshd_keepalive.conf
+_resize_png.ps1
+_inline.ps1
