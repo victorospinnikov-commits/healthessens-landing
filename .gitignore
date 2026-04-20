@@ -45,3 +45,10 @@ _nginx.conf
 _sshd_keepalive.conf
 _resize_png.ps1
 _inline.ps1
+
+# Netlify deploy artifacts
+deploy.zip
+deploy_resp.json
+_deploy.zip
+_deploy/
+zipbuild.ps1

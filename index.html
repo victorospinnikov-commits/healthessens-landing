@@ -3,26 +3,54 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Healthessens — Гармония вашего здоровья</title>
+<title>healthessens — гармония вашего здоровья</title>
 <meta name="description" content="БАДы для иммунитета, сна и красоты. Одна капсула в день — без сложных схем и лишних добавок.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap">
 <style>
+/* ---------- Brand fonts (TT Norms Pro if provided, else Inter) ---------- */
+@font-face{
+  font-family:"TT Norms Pro";
+  src:local("TT Norms Pro"),
+      url("assets/fonts/TTNormsPro-Regular.woff2") format("woff2");
+  font-weight:400;font-style:normal;font-display:swap;
+}
+@font-face{
+  font-family:"TT Norms Pro";
+  src:local("TT Norms Pro Medium"),
+      url("assets/fonts/TTNormsPro-Medium.woff2") format("woff2");
+  font-weight:500;font-style:normal;font-display:swap;
+}
+@font-face{
+  font-family:"TT Norms Pro";
+  src:local("TT Norms Pro Light"),
+      url("assets/fonts/TTNormsPro-Light.woff2") format("woff2");
+  font-weight:300;font-style:normal;font-display:swap;
+}
+
 :root{
-  --bg:#faf9f6;
+  /* Brand palette — healthessens guidebook */
+  --bg:#ffffff;
   --surface:#ffffff;
   --ink:#1a1a1a;
-  --ink-soft:#555;
+  --ink-soft:#4a4a4a;
   --muted:#8a8a8a;
-  --line:#e8e6e0;
-  --line-soft:#f0eee8;
-  --accent:#2d5a4b;
-  --accent-dark:#234539;
-  --accent-soft:#eef2ef;
-  --terra:#c76b4a;
+  --line:#ececec;
+  --line-soft:#f4f4f4;
+  --accent:#62a61e;         /* primary: cornflower-leaf green */
+  --accent-dark:#4e8618;
+  --accent-soft:#f0f7e6;
+  --accent-rgb:98,166,30;
+  --secondary:#e8ac07;      /* secondary: sunflower gold */
+  --secondary-dark:#c89106;
+  --secondary-rgb:232,172,7;
+  --alt-bg:#fafaf7;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth;scroll-padding-top:80px}
 body{
-  font-family:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  font-family:"TT Norms Pro","Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
   background:var(--bg);
   color:var(--ink);
   line-height:1.6;
@@ -34,7 +62,7 @@ body{
 /* ---------- Splash ---------- */
 .splash{
   position:fixed;inset:0;z-index:9999;
-  background:linear-gradient(160deg,#faf9f6 0%,#f4f0e8 55%,#f0ede6 100%);
+  background:linear-gradient(160deg,#ffffff 0%,#f7faf1 55%,#f0f5e4 100%);
   display:flex;flex-direction:column;align-items:center;justify-content:center;
   padding:32px;
   transition:opacity .9s cubic-bezier(.4,0,.2,1);
@@ -43,15 +71,15 @@ body{
 /* Subtle SVG noise for texture */
 .splash::before{
   content:"";position:absolute;inset:0;pointer-events:none;z-index:0;
-  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.18 0 0 0 0 0.35 0 0 0 0 0.29 0 0 0 0.06 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.38 0 0 0 0 0.65 0 0 0 0 0.12 0 0 0 0.05 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
   opacity:.55;mix-blend-mode:multiply;
 }
 /* Ambient glow */
 .splash::after{
   content:"";position:absolute;inset:0;pointer-events:none;z-index:0;
   background:
-    radial-gradient(900px 520px at 50% 32%, rgba(45,90,75,.07) 0%, transparent 60%),
-    radial-gradient(700px 420px at 85% 85%, rgba(199,107,74,.05) 0%, transparent 60%);
+    radial-gradient(900px 520px at 50% 32%, rgba(var(--accent-rgb),.08) 0%, transparent 60%),
+    radial-gradient(700px 420px at 85% 85%, rgba(var(--secondary-rgb),.06) 0%, transparent 60%);
 }
 .splash-inner{
   position:relative;z-index:1;text-align:center;
@@ -63,6 +91,7 @@ body{
   letter-spacing:5px;
   line-height:1;
   color:var(--accent);
+  text-transform:lowercase;
   opacity:0;transform:translateY(10px);
   animation:splashRise 1.2s cubic-bezier(.33,.9,.36,1) .1s forwards;
 }
@@ -74,28 +103,28 @@ body{
 }
 .splash .divider{
   width:56px;height:1px;
-  background:rgba(45,90,75,.3);
+  background:rgba(var(--accent-rgb),.35);
   display:block;
 }
 .splash .sub p{
   color:var(--ink-soft);
   font-size:clamp(12px,1.1vw,14px);
   letter-spacing:2px;
-  text-transform:uppercase;
+  text-transform:lowercase;
   font-weight:400;
 }
 .splash .hint{
   position:absolute;bottom:48px;left:50%;transform:translateX(-50%);
   display:flex;flex-direction:column;align-items:center;gap:14px;
   color:var(--ink-soft);
-  font-size:11px;letter-spacing:2.5px;text-transform:uppercase;font-weight:500;
+  font-size:11px;letter-spacing:2.5px;text-transform:lowercase;font-weight:500;
   cursor:pointer;user-select:none;z-index:1;
   opacity:0;
   animation:splashFade 1s ease .7s forwards;
 }
 .splash .hint .arrow{
   width:44px;height:44px;
-  border:1px solid rgba(45,90,75,.28);border-radius:50%;
+  border:1px solid rgba(var(--accent-rgb),.3);border-radius:50%;
   display:flex;align-items:center;justify-content:center;
   color:var(--accent);
   background:rgba(255,255,255,.55);
@@ -121,28 +150,95 @@ body{
   0%,100%{transform:translateY(0)}
   50%{transform:translateY(6px)}
 }
+
+/* ---- Floating omega-1 capsules on splash (3 шт., чёткие, разные углы) ---- */
+.splash .capsules{
+  position:absolute;inset:0;z-index:0;pointer-events:none;
+  overflow:hidden;
+}
+.splash .cap{
+  position:absolute;display:block;
+  height:auto;          /* натуральные пропорции png */
+  opacity:1;            /* без прозрачности */
+  filter:none;          /* без размытия */
+  will-change:transform;
+  user-select:none;
+}
+/* Каждая капсула — уникальный размер, угол и индивидуальная левитация.
+   База rotate задана внутри @keyframes (трансформ в CSS перебивается анимацией). */
+.splash .cap.c1{
+  width:86px;            /* +20% от 72px */
+  left:6%;  top:18%;
+  animation:float1 3.6s ease-in-out infinite alternate;
+}
+.splash .cap.c2{
+  width:118px;           /* +20% от 98px */
+  right:9%; bottom:13%;
+  animation:float2 4.4s ease-in-out -.8s infinite alternate;
+}
+.splash .cap.c3{
+  width:71px;            /* +20% от 59px */
+  left:22%; bottom:26%;
+  animation:float3 4.8s ease-in-out -1.4s infinite alternate;
+}
+
+/* Каждый @keyframes держит базовый угол (15° / -10° / 25°)
+   и вокруг него ±2° + translateY 4–8 px. */
+@keyframes float1{
+  from{ transform:translateY(10px)  rotate(13deg) scale(.96) }
+  to  { transform:translateY(-16px) rotate(17deg) scale(1.04) }
+}
+@keyframes float2{
+  from{ transform:translateY(-12px) rotate(-12deg) scale(1.05) }
+  to  { transform:translateY(15px)  rotate(-8deg)  scale(.95)  }
+}
+@keyframes float3{
+  from{ transform:translateY(11px)  rotate(23deg) scale(.97) }
+  to  { transform:translateY(-14px) rotate(27deg) scale(1.05) }
+}
+
+@media (prefers-reduced-motion: reduce){
+  .splash .cap{ animation:none }
+}
+
+/* Мобильные: сохраняем все 3, чуть уменьшаем и переезжаем */
+@media (max-width:768px){
+  .splash .cap.c1{ width:64px; left:5%;  top:13% }
+  .splash .cap.c2{ width:88px; right:6%; bottom:12% }
+  .splash .cap.c3{ width:54px; left:16%; bottom:30% }
+}
+
 .splash.hidden{opacity:0;pointer-events:none}
 .splash.removed{display:none}
 
 /* ---------- Nav ---------- */
 nav{
   position:sticky;top:0;z-index:100;
-  background:rgba(250,249,246,.82);
+  background:rgba(255,255,255,.88);
   -webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);
   border-bottom:1px solid var(--line-soft);
 }
 nav .row{display:flex;align-items:center;justify-content:space-between;height:68px}
-nav .logo{font-weight:600;letter-spacing:-0.01em;font-size:17px}
+nav .logo{font-weight:500;letter-spacing:-0.01em;font-size:17px;text-transform:lowercase;color:var(--ink)}
 nav .logo span{color:var(--accent)}
+nav .nav-actions{display:flex;align-items:center;gap:10px}
+nav .nav-buy{
+  padding:8px 20px;background:transparent;color:var(--accent);
+  border:1.5px solid var(--accent);border-radius:40px;
+  text-decoration:none;font-size:14px;font-weight:500;
+  transition:background .2s,color .2s,transform .2s;
+}
+nav .nav-buy:hover{background:var(--accent);color:#fff}
 nav .nav-cta{
   padding:10px 20px;background:var(--accent);color:#fff;
+  border:1.5px solid var(--accent);
   border-radius:999px;text-decoration:none;font-size:14px;font-weight:500;
-  transition:background .2s;
+  transition:background .2s,border-color .2s;
 }
-nav .nav-cta:hover{background:var(--accent-dark)}
+nav .nav-cta:hover{background:var(--secondary);border-color:var(--secondary)}
 
 /* ---------- Generic section ---------- */
-section{padding:112px 0;position:relative}
+section{padding:80px 0;position:relative}
 .eyebrow{
   text-transform:uppercase;letter-spacing:.18em;
   font-size:11px;font-weight:500;color:var(--accent);margin-bottom:20px;
@@ -161,9 +257,7 @@ h2{
   font-size:15px;font-weight:500;border:none;cursor:pointer;
   transition:background .2s,transform .2s,box-shadow .2s;
 }
-.btn:hover{background:var(--accent-dark);transform:translateY(-1px);box-shadow:0 10px 24px -12px rgba(45,90,75,.5)}
-.btn.terra{background:var(--terra)}
-.btn.terra:hover{background:#a95a3e;box-shadow:0 10px 24px -12px rgba(199,107,74,.5)}
+.btn:hover{background:var(--secondary);transform:translateY(-1px);box-shadow:0 10px 24px -12px rgba(var(--secondary-rgb),.55)}
 .btn .arr{font-size:16px;transition:transform .2s}
 .btn:hover .arr{transform:translateX(3px)}
 
@@ -185,10 +279,11 @@ h2{
   border-radius:18px;padding:28px;
   transition:border-color .2s,transform .2s,box-shadow .3s;
   display:flex;flex-direction:column;
+  position:relative;z-index:1;
 }
-.card:hover{border-color:#d3cfc5;transform:translateY(-2px);box-shadow:0 12px 30px -18px rgba(0,0,0,.1)}
+.card:hover{border-color:var(--accent);transform:translateY(-2px);box-shadow:0 12px 30px -18px rgba(var(--accent-rgb),.28)}
 .card .idx{
-  font-size:12px;font-weight:500;color:var(--accent);
+  font-size:12px;font-weight:500;color:var(--secondary);
   letter-spacing:.1em;margin-bottom:20px;font-feature-settings:"tnum";
 }
 .card h3{font-size:18px;font-weight:500;margin-bottom:10px;letter-spacing:-0.005em}
@@ -197,19 +292,48 @@ h2{
 /* ---------- Products ---------- */
 .product{position:relative}
 .product .thumb{
-  height:140px;margin:-6px -6px 20px;
-  background:linear-gradient(135deg,var(--accent-soft) 0%,#fbf5ef 100%);
+  height:260px;margin:-6px -6px 20px;
+  background:linear-gradient(135deg,var(--accent-soft) 0%,#fff8e1 100%);
   border-radius:14px;display:flex;align-items:center;justify-content:center;
-  font-size:14px;color:var(--accent);letter-spacing:.06em;text-transform:uppercase;
-  font-weight:500;
+  padding:12px;position:relative;overflow:hidden;
 }
-.product .price-row{margin-top:auto;padding-top:20px;display:flex;align-items:flex-end;justify-content:space-between;border-top:1px solid var(--line-soft)}
-.product .price{font-size:22px;font-weight:500;letter-spacing:-0.01em;font-feature-settings:"tnum"}
-.product .price-note{color:var(--muted);font-size:12.5px;margin-top:4px}
-.product .tag{
-  font-size:11px;color:var(--accent);background:var(--accent-soft);
-  padding:5px 10px;border-radius:999px;letter-spacing:.04em;
+.product .thumb img{
+  display:block;margin:0 auto;
+  width:100%;max-width:190px;height:auto;
+  filter:drop-shadow(0 10px 20px rgba(0,0,0,.2));
+  transition:transform .25s ease;
+  user-select:none;
 }
+.product:hover .thumb img{transform:scale(1.03)}
+
+/* Buy button (Wildberries) */
+.btn-buy{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  background:var(--accent);color:#fff;
+  padding:10px 20px;border-radius:40px;border:none;
+  font:inherit;font-weight:500;font-size:14.5px;
+  text-decoration:none;cursor:pointer;
+  transition:background .2s ease,transform .2s ease,box-shadow .2s ease;
+  box-shadow:0 6px 14px -8px rgba(var(--accent-rgb),.45);
+  white-space:nowrap;
+}
+.btn-buy:hover{background:var(--accent-dark);transform:scale(1.02);box-shadow:0 10px 20px -8px rgba(var(--accent-rgb),.55)}
+.btn-buy:active{transform:scale(.99)}
+.btn-buy .arr{transition:transform .2s ease}
+.btn-buy:hover .arr{transform:translateX(2px)}
+.product .actions-row{margin-top:auto;padding-top:20px;display:flex;gap:10px;align-items:center;justify-content:space-between;border-top:1px solid var(--line-soft)}
+.product .actions-row .btn-buy,.product .actions-row .btn-details{flex:1 1 0;min-width:0}
+.btn-details{
+  display:inline-flex;align-items:center;justify-content:center;
+  padding:8px 16px;background:transparent;color:var(--accent);
+  border:1.5px solid var(--accent);border-radius:40px;
+  font:inherit;font-size:14px;font-weight:500;cursor:pointer;
+  transition:background .2s ease,color .2s ease;
+  white-space:nowrap;text-decoration:none;
+}
+.btn-details:hover{background:var(--accent);color:#fff}
+.btn-details--light{color:#fff;border-color:#fff}
+.btn-details--light:hover{background:#fff;color:#1a1a1a}
 
 /* ---------- Steps ---------- */
 .step .big-num{
@@ -218,8 +342,35 @@ h2{
   font-feature-settings:"tnum";
 }
 
+/* ---------- Принцип — section with cornflower pattern ---------- */
+.alt-bg{
+  background:var(--alt-bg);
+  border-top:1px solid var(--line-soft);
+  border-bottom:1px solid var(--line-soft);
+  position:relative;overflow:hidden;
+}
+.alt-bg .container{position:relative;z-index:1}
+
+/* Brand pattern №1 — raster source from guidebook (assets/pattern.jpg).
+   Applied as ::before so opacity affects only the background, not content.
+   Static — no rotation, vertical growth orientation preserved.
+   Generic — works on any section with .with-pattern class. */
+.with-pattern{position:relative;overflow:hidden}
+.with-pattern > .container{position:relative;z-index:1}
+.with-pattern::before{
+  content:"";
+  position:absolute;inset:0;
+  background-image:url("assets/pattern.jpg");
+  background-repeat:repeat;          /* seamless tiling */
+  background-size:auto;              /* native size — no distortion */
+  background-position:top left;
+  opacity:.07;                       /* very subtle, text stays readable */
+  pointer-events:none;
+  z-index:0;
+}
+
 /* ---------- Quiz ---------- */
-.quiz-wrap{padding:96px 0}
+.quiz-wrap{padding:80px 0}
 .quiz{
   background:var(--accent);color:#fff;border-radius:28px;
   padding:80px 48px;text-align:center;position:relative;overflow:hidden;
@@ -227,16 +378,16 @@ h2{
 .quiz::before{
   content:"";position:absolute;inset:0;
   background:
-    radial-gradient(600px 300px at 15% 20%, rgba(255,255,255,.06) 0%, transparent 60%),
-    radial-gradient(700px 400px at 85% 90%, rgba(199,107,74,.18) 0%, transparent 60%);
+    radial-gradient(600px 300px at 15% 20%, rgba(255,255,255,.08) 0%, transparent 60%),
+    radial-gradient(700px 400px at 85% 90%, rgba(var(--secondary-rgb),.28) 0%, transparent 60%);
   pointer-events:none;
 }
 .quiz > *{position:relative}
-.quiz .eyebrow{color:rgba(255,255,255,.7)}
+.quiz .eyebrow{color:rgba(255,255,255,.75)}
 .quiz h2{color:#fff;margin-bottom:16px}
-.quiz .lead{color:rgba(255,255,255,.75);margin:0 auto 36px}
+.quiz .lead{color:rgba(255,255,255,.8);margin:0 auto 36px}
 .quiz .btn{background:#fff;color:var(--accent)}
-.quiz .btn:hover{background:#f0ede6;box-shadow:0 12px 28px -14px rgba(0,0,0,.4)}
+.quiz .btn:hover{background:var(--secondary);color:#fff;box-shadow:0 12px 28px -14px rgba(0,0,0,.4)}
 
 /* Quiz interactive */
 .quiz-box{
@@ -251,7 +402,7 @@ h2{
   width:28px;height:3px;border-radius:2px;background:rgba(255,255,255,.22);
   transition:background .3s;
 }
-.quiz-progress .dot.active{background:#fff}
+.quiz-progress .dot.active{background:var(--secondary)}
 .quiz-state{
   display:none;width:100%;max-width:640px;text-align:center;
 }
@@ -260,7 +411,7 @@ h2{
 
 .q-step{
   letter-spacing:.15em;text-transform:uppercase;font-size:11px;font-weight:500;
-  color:rgba(255,255,255,.65);margin-bottom:18px;
+  color:rgba(255,255,255,.7);margin-bottom:18px;
 }
 .q-title{
   font-size:clamp(22px,2.8vw,34px);font-weight:400;letter-spacing:-0.01em;
@@ -268,52 +419,165 @@ h2{
 }
 .q-options{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
 .q-opt{
-  padding:18px 22px;border-radius:14px;
-  border:1px solid rgba(255,255,255,.22);
+  padding:18px 22px;min-height:56px;border-radius:14px;
+  border:1px solid rgba(255,255,255,.28);
   background:rgba(255,255,255,.06);color:#fff;
   font:inherit;font-size:15px;font-weight:400;text-align:left;
   cursor:pointer;
-  transition:background .2s,border-color .2s,transform .12s;
+  display:flex;align-items:center;
+  transition:background .25s ease,border-color .25s ease,transform .15s ease,color .25s ease;
 }
-.q-opt:hover{background:rgba(255,255,255,.16);border-color:rgba(255,255,255,.45)}
+.q-opt:hover{background:var(--secondary);border-color:var(--secondary);color:#1a1a1a}
 .q-opt:active{transform:scale(.985)}
-.q-opt:focus-visible{outline:2px solid #fff;outline-offset:2px}
+.q-opt:focus-visible{outline:2px solid var(--secondary);outline-offset:2px}
+.q-opt.is-picked{
+  background:var(--secondary);border-color:var(--secondary);color:#1a1a1a;
+  transform:scale(.98);
+}
 
-.result-card{
-  display:flex;align-items:center;gap:24px;
-  max-width:560px;margin:0 auto 28px;
-  background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);
-  border-radius:20px;padding:22px;text-align:left;
+/* Result — pair / trio layout */
+.result-pair{
+  display:grid;grid-template-columns:repeat(2,1fr);gap:16px;
+  max-width:640px;margin:0 auto 28px;
 }
-.result-thumb{
-  flex:0 0 120px;height:120px;border-radius:16px;
-  background:linear-gradient(135deg,#eef2ef 0%,#fbf5ef 100%);
-  display:flex;align-items:center;justify-content:center;
-  color:var(--accent);font-weight:500;letter-spacing:.04em;
-  text-transform:uppercase;font-size:13px;
+.result-pair.tri{grid-template-columns:repeat(3,1fr);gap:12px;max-width:720px}
+.result-pair-card{
+  background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);
+  border-radius:20px;padding:22px 18px 20px;
+  display:flex;flex-direction:column;align-items:center;gap:10px;
+  text-align:center;
+  animation:resultCardIn .5s cubic-bezier(.2,.65,.25,1) both;
 }
-.result-body{flex:1;min-width:0}
-.result-body h3{font-size:22px;font-weight:500;margin-bottom:6px;color:#fff;letter-spacing:-0.01em}
-.result-body p{color:rgba(255,255,255,.78);font-size:15px;margin-bottom:14px;line-height:1.5}
-.result-price{display:flex;align-items:baseline;gap:10px;color:#fff}
-.result-price .p-amount{font-size:22px;font-weight:500;font-feature-settings:"tnum"}
-.result-price small{color:rgba(255,255,255,.58);font-size:12.5px}
+@keyframes resultCardIn{ from{opacity:0;transform:scale(.92)} to{opacity:1;transform:scale(1)} }
+.result-pair-card .rp-img{
+  width:150px;height:150px;border-radius:16px;
+  background:linear-gradient(135deg,var(--accent-soft) 0%,#fff8e1 100%);
+  display:flex;align-items:center;justify-content:center;padding:12px;
+}
+.result-pair-card .rp-img img{
+  width:100%;max-width:126px;height:auto;display:block;
+  filter:drop-shadow(0 10px 20px rgba(0,0,0,.2));
+}
+.result-pair.tri .rp-img{width:124px;height:124px;padding:10px}
+.result-pair.tri .rp-img img{max-width:104px}
+.result-pair-card .rp-name{
+  font-size:17px;font-weight:500;color:#fff;letter-spacing:-0.005em;margin-top:4px;
+}
+.result-pair.tri .rp-name{font-size:15.5px}
+.result-pair-card .rp-desc{font-size:13.5px;color:rgba(255,255,255,.82);line-height:1.5}
+.result-pair-card .rp-more{margin-top:8px;padding:6px 14px;font-size:13px}
+
+/* Scale-in animation for the whole result state */
+.quiz-state[data-state="result"].active{animation:resultIn .5s cubic-bezier(.2,.65,.25,1) both}
+@keyframes resultIn{ from{opacity:0;transform:scale(.95)} to{opacity:1;transform:scale(1)} }
 
 .quiz .btn-outline{
   background:transparent;color:#fff;border:1px solid rgba(255,255,255,.55);
 }
-.quiz .btn-outline:hover{background:#fff;color:var(--accent);box-shadow:0 12px 28px -14px rgba(0,0,0,.4)}
+.result-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;align-items:center}
+.result-actions .btn-buy{background:var(--secondary);color:#1a1a1a;box-shadow:0 6px 14px -8px rgba(var(--secondary-rgb),.55)}
+.result-actions .btn-buy:hover{background:var(--secondary-dark);color:#1a1a1a;box-shadow:0 10px 20px -8px rgba(var(--secondary-rgb),.65)}
+.quiz .btn-outline:hover{background:var(--secondary);color:#1a1a1a;border-color:var(--secondary);box-shadow:0 12px 28px -14px rgba(0,0,0,.4)}
 
 @media (max-width: 640px){
+  .quiz{padding:52px 22px;border-radius:22px}
   .quiz-box{min-height:420px}
-  .q-options{grid-template-columns:1fr}
-  .result-card{flex-direction:column;text-align:center;padding:20px}
-  .result-thumb{flex:0 0 auto;width:100%;max-width:260px;height:110px}
-  .result-price{justify-content:center}
+  .q-options{grid-template-columns:1fr;gap:10px}
+  .q-opt{padding:14px 18px;min-height:52px;font-size:15px;border-radius:12px}
+  .result-pair{grid-template-columns:repeat(2,1fr);gap:10px}
+  .result-pair.tri{grid-template-columns:repeat(3,1fr);gap:8px}
+  .result-pair-card{padding:16px 10px 14px;border-radius:16px}
+  .result-pair-card .rp-img{width:100px;height:100px;padding:8px}
+  .result-pair-card .rp-img img{max-width:84px}
+  .result-pair-card .rp-name{font-size:14.5px}
+  .result-pair-card .rp-desc{font-size:12.5px;line-height:1.45}
+  .result-pair.tri .rp-img{width:78px;height:78px;padding:6px}
+  .result-pair.tri .rp-img img{max-width:66px}
+  .result-pair.tri .rp-name{font-size:13.5px}
+  .result-actions .btn-buy{width:100%}
+  .result-actions{flex-direction:column;align-items:stretch}
 }
 
-/* ---------- Alt bg ---------- */
-.alt-bg{background:var(--surface);border-top:1px solid var(--line-soft);border-bottom:1px solid var(--line-soft)}
+/* ================= FAQ ================= */
+.faq-section{padding:80px 0;background:var(--surface)}
+.faq-wrap{max-width:800px;margin:40px auto 0;padding:0 20px}
+.faq-item{border-bottom:1px solid #EAEAEA}
+.faq-item:first-child{border-top:1px solid #EAEAEA}
+.faq-question{
+  width:100%;display:flex;align-items:center;justify-content:space-between;gap:16px;
+  background:transparent;border:0;cursor:pointer;
+  padding:22px 4px;text-align:left;
+  font:inherit;font-size:17px;font-weight:500;color:#1A1A1A;letter-spacing:-0.003em;
+  transition:color .2s ease;
+}
+.faq-question:hover{color:var(--accent-dark)}
+.faq-question .faq-ic{
+  flex:0 0 auto;width:26px;height:26px;border-radius:50%;
+  display:grid;place-items:center;color:var(--accent);
+  transition:transform .3s cubic-bezier(.2,.65,.25,1);
+  font-size:20px;line-height:1;font-weight:400;
+}
+.faq-item.is-open .faq-question{color:var(--accent-dark)}
+.faq-item.is-open .faq-ic{transform:rotate(45deg)}
+.faq-answer{
+  overflow:hidden;max-height:0;
+  transition:max-height .35s cubic-bezier(.2,.65,.25,1);
+}
+.faq-answer-inner{
+  padding:0 4px 22px;
+  font-size:15px;line-height:1.65;color:#555555;letter-spacing:-0.002em;
+  max-width:720px;
+}
+@media (max-width:720px){
+  .faq-section{padding:60px 0}
+  .faq-wrap{margin-top:28px;padding:0 16px}
+  .faq-question{padding:18px 2px;font-size:15.5px;gap:12px}
+  .faq-answer-inner{padding:0 2px 18px;font-size:14.5px;line-height:1.6}
+  .faq-question .faq-ic{width:22px;height:22px;font-size:18px}
+}
+
+/* ---------- Product modal ---------- */
+.modal-overlay{
+  position:fixed;inset:0;background:rgba(0,0,0,.4);
+  display:none;align-items:center;justify-content:center;
+  z-index:1000;padding:20px;opacity:0;
+  transition:opacity .25s ease;
+}
+.modal-overlay.is-open{display:flex;opacity:1}
+.modal-window{
+  background:#fff;border-radius:24px;padding:32px 32px 28px;
+  max-width:500px;width:100%;
+  box-shadow:0 25px 50px -12px rgba(0,0,0,.25);
+  position:relative;max-height:90vh;overflow-y:auto;
+  transform:scale(.9);transition:transform .25s ease;
+}
+.modal-overlay.is-open .modal-window{transform:scale(1)}
+.modal-close{
+  position:absolute;top:14px;right:14px;
+  width:36px;height:36px;border-radius:50%;
+  background:transparent;border:none;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  color:var(--ink-soft);font-size:24px;line-height:1;
+  transition:background .2s ease,color .2s ease;
+  z-index:2;pointer-events:auto;
+}
+.modal-close > *{pointer-events:none}
+.modal-close:hover{background:var(--alt-bg);color:var(--ink)}
+.modal-window h3{
+  font-size:22px;font-weight:500;letter-spacing:-0.01em;
+  margin-bottom:14px;padding-right:36px;color:var(--ink);
+}
+.modal-desc{color:var(--ink-soft);font-size:15px;line-height:1.6;margin-bottom:20px}
+.modal-benefits{list-style:none;padding:0;margin:0 0 20px;display:flex;flex-direction:column;gap:10px}
+.modal-benefits li{padding-left:22px;position:relative;color:var(--ink);font-size:14.5px;line-height:1.55}
+.modal-benefits li::before{content:"";position:absolute;left:0;top:8px;width:8px;height:8px;border-radius:50%;background:var(--accent)}
+.modal-dose{background:var(--alt-bg);border-radius:14px;padding:14px 18px;font-size:14px;color:var(--ink-soft);line-height:1.5}
+.modal-dose strong{color:var(--ink);font-weight:500}
+@media (max-width:640px){
+  .modal-window{padding:26px 22px 22px;border-radius:20px}
+  .modal-window h3{font-size:19px}
+  .modal-desc{font-size:14px}
+}
 
 /* ---------- Footer ---------- */
 footer{padding:56px 0;border-top:1px solid var(--line)}
@@ -325,57 +589,201 @@ footer .row span:first-child{color:var(--ink-soft)}
   .grid-4{grid-template-columns:repeat(2,1fr)}
 }
 @media (max-width: 720px){
-  section{padding:72px 0}
+  section{padding:60px 0}
   .hero{padding:80px 0 56px}
-  .quiz-wrap{padding:64px 0}
+  .quiz-wrap{padding:60px 0}
   .quiz{padding:56px 28px;border-radius:22px}
   .grid-4,.grid-3{grid-template-columns:1fr;gap:14px}
   .container{padding:0 20px}
   nav .row{height:60px}
   nav .logo{font-size:16px}
+  nav .nav-actions{gap:8px}
+  nav .nav-buy{padding:7px 14px;font-size:13px}
   nav .nav-cta{padding:9px 16px;font-size:13px}
   .lead{margin-bottom:36px}
   .card{padding:24px;border-radius:16px}
-  .product .thumb{height:120px}
+  .product .thumb{height:210px;padding:8px}
+  .product .thumb img{max-width:140px}
+  .btn-buy{padding:12px 16px;font-size:14px;width:100%}
+  .product .actions-row{flex-direction:column;align-items:stretch;gap:10px}
+  .product .actions-row .btn-buy,.product .actions-row .btn-details{width:100%}
   footer{padding:40px 0}
 }
 
 /* Reveal-on-scroll */
 .reveal{opacity:0;transform:translateY(16px);transition:opacity .7s ease,transform .7s ease}
 .reveal.in{opacity:1;transform:translateY(0)}
+
+/* ================= REVIEWS ================= */
+.reviews-section{padding:80px 0;background:var(--bg);position:relative;overflow:hidden}
+.reviews-section h2 .brand-accent{color:var(--accent)}
+.reviews-wrap{position:relative;margin-top:48px}
+.reviews-track{
+  display:flex;gap:18px;
+  overflow-x:auto;scroll-behavior:smooth;
+  scroll-snap-type:x mandatory;
+  -webkit-overflow-scrolling:touch;
+  padding:8px 4px 28px;
+  scrollbar-width:none;
+  scroll-padding-left:4px;
+}
+.reviews-track::-webkit-scrollbar{display:none}
+.rev-card{
+  flex:0 0 320px;max-width:320px;
+  scroll-snap-align:start;
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:18px;
+  padding:26px 24px;
+  display:flex;flex-direction:column;gap:14px;
+  cursor:pointer;
+  transition:border-color .2s,transform .2s,box-shadow .25s;
+}
+.rev-card:hover{border-color:var(--accent);transform:translateY(-2px);box-shadow:0 12px 30px -18px rgba(var(--accent-rgb),.3)}
+.rev-card .rev-product{
+  display:inline-block;align-self:flex-start;
+  font-size:11px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--accent);background:var(--accent-soft);
+  padding:6px 12px;border-radius:999px;
+}
+.rev-card .rev-preview{
+  font-size:15px;line-height:1.55;color:var(--ink);
+  display:-webkit-box;-webkit-line-clamp:5;-webkit-box-orient:vertical;
+  overflow:hidden;
+}
+.rev-card .rev-author{
+  margin-top:auto;padding-top:8px;
+  font-size:13.5px;color:var(--ink-soft);font-weight:500;
+}
+.rev-card .rev-more{
+  align-self:flex-start;
+  background:none;border:none;padding:0;
+  font:inherit;font-size:13px;font-weight:500;color:var(--accent);
+  cursor:pointer;letter-spacing:.01em;
+}
+.rev-card .rev-more:hover{color:var(--accent-dark)}
+.rev-card .rev-more .arr{display:inline-block;margin-left:4px;transition:transform .2s}
+.rev-card .rev-more:hover .arr{transform:translateX(3px)}
+
+.rev-arrow{
+  position:absolute;top:50%;transform:translateY(-50%);
+  width:44px;height:44px;border-radius:50%;
+  background:#fff;border:1px solid var(--line);
+  color:var(--accent);
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;
+  font-size:20px;line-height:1;
+  box-shadow:0 6px 16px -10px rgba(0,0,0,.18);
+  transition:background .2s,color .2s,border-color .2s,transform .15s;
+  z-index:2;
+}
+.rev-arrow:hover{background:var(--accent);color:#fff;border-color:var(--accent)}
+.rev-arrow:active{transform:translateY(-50%) scale(.95)}
+.rev-arrow:disabled{opacity:.35;cursor:not-allowed;background:#fff;color:var(--accent);border-color:var(--line)}
+.rev-arrow.rev-prev{left:-22px}
+.rev-arrow.rev-next{right:-22px}
+
+@media (max-width:720px){
+  .reviews-section{padding:60px 0}
+  .reviews-wrap{margin-top:32px}
+  .rev-card{flex:0 0 86%;max-width:86%;padding:22px 20px}
+  .rev-arrow{width:36px;height:36px;font-size:18px}
+  .rev-arrow.rev-prev{left:4px}
+  .rev-arrow.rev-next{right:4px}
+}
+
+/* ---------- Modal ---------- */
+.modal-overlay{
+  position:fixed;inset:0;z-index:10000;
+  background:rgba(20,22,18,.55);
+  -webkit-backdrop-filter:blur(2px);backdrop-filter:blur(2px);
+  display:flex;align-items:center;justify-content:center;
+  padding:24px;
+  opacity:0;pointer-events:none;
+  transition:opacity .25s ease;
+}
+.modal-overlay.open{opacity:1;pointer-events:auto}
+.modal{
+  background:#fff;color:var(--ink);
+  width:100%;max-width:500px;
+  border-radius:20px;
+  padding:32px 32px 28px;
+  box-shadow:0 30px 80px -30px rgba(0,0,0,.45);
+  position:relative;
+  transform:translateY(8px) scale(.98);
+  transition:transform .25s ease;
+  font-family:inherit;
+}
+.modal-overlay.open .modal{transform:translateY(0) scale(1)}
+.modal-close{
+  position:absolute;top:14px;right:14px;
+  width:36px;height:36px;border-radius:50%;
+  background:transparent;border:none;
+  color:var(--ink-soft);font-size:24px;line-height:1;
+  cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  transition:background .15s,color .15s;
+}
+.modal-close:hover{background:#f1efe9;color:var(--ink)}
+.modal-product{
+  display:inline-block;font-size:11px;font-weight:500;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--accent);background:var(--accent-soft);
+  padding:6px 12px;border-radius:999px;margin-bottom:14px;
+}
+.modal h3{
+  font-size:20px;font-weight:500;letter-spacing:-0.005em;
+  margin-bottom:14px;color:var(--ink);
+}
+.modal p{
+  font-size:15.5px;line-height:1.65;color:var(--ink-soft);
+}
+@media (max-width:480px){
+  .modal{padding:28px 22px 24px;border-radius:16px}
+  .modal h3{font-size:18px}
+  .modal p{font-size:15px}
+}
 </style>
 </head>
 <body>
 
 <!-- ================= SPLASH ================= -->
-<div class="splash" id="splash" role="dialog" aria-label="Healthessens">
+<div class="splash" id="splash" role="dialog" aria-label="healthessens">
+  <!-- Floating omega-3 capsules — ровно 3 шт., разные углы и тайминги -->
+  <div class="capsules" aria-hidden="true">
+    <img class="cap c1" src="assets/omega-1.png" alt="" loading="eager" decoding="async">
+    <img class="cap c2" src="assets/omega-1.png" alt="" loading="eager" decoding="async">
+    <img class="cap c3" src="assets/omega-1.png" alt="" loading="eager" decoding="async">
+  </div>
   <div class="splash-inner">
-    <h1>Healthessens</h1>
+    <h1>healthessens</h1>
     <div class="sub">
       <span class="divider" aria-hidden="true"></span>
-      <p>Гармония вашего здоровья</p>
+      <p>гармония вашего здоровья</p>
     </div>
   </div>
   <div class="hint" id="splashHint">
     <span class="arrow" aria-hidden="true">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M6 13l6 6 6-6"/></svg>
     </span>
-    <span>Узнать больше</span>
+    <span>узнать больше</span>
   </div>
 </div>
 
 <!-- ================= NAV ================= -->
 <nav>
   <div class="container row">
-    <div class="logo">Health<span>essens</span></div>
-    <a class="nav-cta" href="#quiz">Подобрать комплекс</a>
+    <div class="logo">health<span>essens</span></div>
+    <div class="nav-actions">
+      <a class="nav-buy" href="https://www.wildberries.ru/brands/312101122-hessens/bady" target="_blank" rel="noopener">Где купить</a>
+      <a class="nav-cta" href="#quiz">Подобрать комплекс</a>
+    </div>
   </div>
 </nav>
 
 <!-- ================= HERO ================= -->
 <header class="hero">
   <div class="container">
-    <div class="eyebrow reveal">Healthessens</div>
+    <div class="eyebrow reveal">healthessens</div>
     <h1 class="reveal">Поддержка,<br>которую ты не замечаешь</h1>
     <p class="lead reveal">Одна капсула в день для иммунитета, сна и красоты. Без сложных схем и лишних добавок.</p>
     <a class="btn reveal" href="#quiz">Подобрать комплекс <span class="arr">→</span></a>
@@ -383,7 +791,12 @@ footer .row span:first-child{color:var(--ink-soft)}
 </header>
 
 <!-- ================= ПРИНЦИП ================= -->
-<section class="alt-bg">
+<section class="alt-bg with-pattern">
+  <!--
+    Brand pattern №1 — cornflower (василёк), guidebook raster source
+    served from assets/pattern.jpg via .alt-bg.with-pattern::before.
+    Static, no rotation, vertical growth orientation preserved. opacity .08.
+  -->
   <div class="container">
     <div class="eyebrow reveal">Принцип</div>
     <h2 class="reveal" style="margin-bottom:48px">Ингредиент — это решение,<br>а не вкус</h2>
@@ -413,58 +826,58 @@ footer .row span:first-child{color:var(--ink-soft)}
 </section>
 
 <!-- ================= ПРОДУКТЫ ================= -->
-<section>
+<section id="products">
   <div class="container">
     <div class="eyebrow reveal">Продукты</div>
     <h2 class="reveal">Выберите свой вектор поддержки</h2>
     <p class="lead reveal">Четыре формулы — четыре направления. Начните с того, что важно сейчас.</p>
     <div class="grid-4">
       <div class="card product reveal">
-        <div class="thumb">Магний</div>
+        <div class="thumb">
+          <img src="assets/product-1.png" alt="Магний B6" loading="lazy" decoding="async">
+        </div>
         <div class="idx">01</div>
         <h3>Магний B6</h3>
         <p>Глубокий сон и спокойствие.</p>
-        <div class="price-row">
-          <div>
-            <div class="price">1 500 ₽</div>
-            <div class="price-note">за курс 30 дней</div>
-          </div>
+        <div class="actions-row">
+          <button type="button" class="btn-details" data-product="magnesium">Подробнее</button>
+          <a class="btn-buy" href="https://www.wildberries.ru/catalog/302821343/detail.aspx" target="_blank" rel="noopener">Купить <span class="arr">→</span></a>
         </div>
       </div>
       <div class="card product reveal">
-        <div class="thumb">D3 + K2</div>
+        <div class="thumb">
+          <img src="assets/product-2.png" alt="Витамин D3 + K2" loading="lazy" decoding="async">
+        </div>
         <div class="idx">02</div>
         <h3>Витамин D3 + K2</h3>
         <p>Крепкий иммунитет и кости.</p>
-        <div class="price-row">
-          <div>
-            <div class="price">2 000 ₽</div>
-            <div class="price-note">за курс 30 дней</div>
-          </div>
+        <div class="actions-row">
+          <button type="button" class="btn-details" data-product="d3k2">Подробнее</button>
+          <a class="btn-buy" href="https://www.wildberries.ru/catalog/431331501/detail.aspx" target="_blank" rel="noopener">Купить <span class="arr">→</span></a>
         </div>
       </div>
       <div class="card product reveal">
-        <div class="thumb">Омега-3</div>
+        <div class="thumb">
+          <img src="assets/product-4.png" alt="Омега-3" loading="lazy" decoding="async">
+        </div>
         <div class="idx">03</div>
         <h3>Омега-3</h3>
         <p>Сияние кожи и ясность ума.</p>
-        <div class="price-row">
-          <div>
-            <div class="price">3 000 ₽</div>
-            <div class="price-note">за курс 30 дней</div>
-          </div>
+        <div class="actions-row">
+          <button type="button" class="btn-details" data-product="omega3">Подробнее</button>
+          <a class="btn-buy" href="https://www.wildberries.ru/catalog/721550833/detail.aspx" target="_blank" rel="noopener">Купить <span class="arr">→</span></a>
         </div>
       </div>
       <div class="card product reveal">
-        <div class="thumb">Селен</div>
+        <div class="thumb">
+          <img src="assets/product-3.png" alt="Селен" loading="lazy" decoding="async">
+        </div>
         <div class="idx">04</div>
         <h3>Селен</h3>
         <p>Антиоксидантная защита и щитовидная железа.</p>
-        <div class="price-row">
-          <div>
-            <div class="price">2 500 ₽</div>
-            <div class="price-note">за курс 30 дней</div>
-          </div>
+        <div class="actions-row">
+          <button type="button" class="btn-details" data-product="selenium">Подробнее</button>
+          <a class="btn-buy" href="https://www.wildberries.ru/catalog/302854675/detail.aspx" target="_blank" rel="noopener">Купить <span class="arr">→</span></a>
         </div>
       </div>
     </div>
@@ -472,7 +885,7 @@ footer .row span:first-child{color:var(--ink-soft)}
 </section>
 
 <!-- ================= КАК ЭТО РАБОТАЕТ ================= -->
-<section class="alt-bg">
+<section class="alt-bg with-pattern">
   <div class="container">
     <div class="eyebrow reveal">Как это работает</div>
     <h2 class="reveal">Три шага. Без сложных схем.</h2>
@@ -502,20 +915,19 @@ footer .row span:first-child{color:var(--ink-soft)}
     <div class="quiz reveal">
       <div class="quiz-box" id="quizBox">
         <div class="quiz-progress" id="quizProgress" aria-hidden="true">
-          <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+          <span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span>
         </div>
 
         <!-- START -->
         <div class="quiz-state active" data-state="start">
-          <div class="eyebrow">Квиз</div>
-          <h2>Узнайте свой вектор<br>за 30 секунд</h2>
-          <p class="lead">Ответьте на 3 вопроса.</p>
+          <h2>Узнайте свой вектор<br>за 60 секунд</h2>
+          <p class="lead">Ответьте на 5 вопросов — подберём идеальную пару продуктов.</p>
           <button type="button" class="btn" id="quizStart">Начать <span class="arr">→</span></button>
         </div>
 
         <!-- QUESTION (reused) -->
         <div class="quiz-state" data-state="question">
-          <div class="q-step" id="qStep">Вопрос 1 из 3</div>
+          <div class="q-step" id="qStep">Вопрос 1 из 5</div>
           <h2 class="q-title" id="qTitle"></h2>
           <div class="q-options" id="qOptions"></div>
         </div>
@@ -523,29 +935,161 @@ footer .row span:first-child{color:var(--ink-soft)}
         <!-- RESULT -->
         <div class="quiz-state" data-state="result">
           <div class="eyebrow">Ваш вектор</div>
-          <h2 style="margin-bottom:32px">Рекомендуем начать с&nbsp;этого</h2>
-          <div class="result-card">
-            <div class="result-thumb" id="resultThumb"></div>
-            <div class="result-body">
-              <h3 id="resultName"></h3>
-              <p id="resultDesc"></p>
-              <div class="result-price">
-                <span class="p-amount" id="resultPrice"></span>
-                <small>за курс 30 дней</small>
-              </div>
-            </div>
+          <h2 style="margin-bottom:32px">Ваша идеальная пара</h2>
+          <div class="result-pair" id="resultPair"></div>
+          <div class="result-actions">
+            <a id="resultBuy" class="btn-buy" href="https://www.wildberries.ru/brands/312101122-hessens/bady" target="_blank" rel="noopener">Где купить <span class="arr">→</span></a>
+            <button type="button" class="btn btn-outline" id="quizRestart">Пройти заново</button>
           </div>
-          <button type="button" class="btn btn-outline" id="quizRestart">Попробовать снова</button>
         </div>
       </div>
     </div>
   </div>
 </div>
 
+<!-- ================= ОТЗЫВЫ ================= -->
+<section class="reviews-section with-pattern" id="reviews">
+  <div class="container">
+    <div class="eyebrow reveal">Отзывы</div>
+    <h2 class="reveal">Чувствуют те, кто уже выбрал<br>health<span class="brand-accent">essens</span></h2>
+
+    <div class="reviews-wrap reveal">
+      <button type="button" class="rev-arrow rev-prev" id="revPrev" aria-label="Предыдущий отзыв">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+      </button>
+
+      <div class="reviews-track" id="reviewsTrack" tabindex="0">
+
+        <article class="rev-card"
+          data-product="Магний B6"
+          data-author="Анна, 32 года"
+          data-full="С Магнием B6 я наконец-то начала высыпаться. Раньше просыпалась по 5 раз за ночь, а теперь засыпаю за 10 минут и сплю до утра. Утром чувствую себя отдохнувшей, ушла раздражительность. Это мой must-have на постоянной основе.">
+          <div class="rev-product">Магний B6</div>
+          <p class="rev-preview">С Магнием B6 я наконец-то начала высыпаться. Раньше просыпалась по 5 раз за ночь, а теперь засыпаю за 10 минут и сплю до утра.</p>
+          <div class="rev-author">Анна, 32 года</div>
+          <button type="button" class="rev-more">Читать полностью <span class="arr">→</span></button>
+        </article>
+
+        <article class="rev-card"
+          data-product="Витамин D3 + K2"
+          data-author="Дмитрий, 38 лет"
+          data-full="Зимой я обычно болею раз в месяц — простуды, насморки, всё подряд. Начал пить D3 + K2 в октябре, и за всю зиму не подхватил ничего. Энергии стало больше, утром встаю без будильника. Жена тоже подсела — теперь берём двойной курс.">
+          <div class="rev-product">D3 + K2</div>
+          <p class="rev-preview">Зимой обычно болею раз в месяц. Начал пить D3 + K2 в октябре — и за всю зиму ни разу не слёг. Энергии больше, утром встаю без будильника.</p>
+          <div class="rev-author">Дмитрий, 38 лет</div>
+          <button type="button" class="rev-more">Читать полностью <span class="arr">→</span></button>
+        </article>
+
+        <article class="rev-card"
+          data-product="Омега-3"
+          data-author="Марина, 29 лет"
+          data-full="Кожа была вечно тусклой, в зеркало смотреть не хотелось. Через месяц на Омеге-3 заметила, что лицо как будто светится изнутри — это первое. Второе — голова работает чище, особенно к вечеру. Третий месяц на курсе, переходить на что-то другое не планирую.">
+          <div class="rev-product">Омега-3</div>
+          <p class="rev-preview">Кожа была вечно тусклой, в зеркало смотреть не хотелось. Через месяц на Омеге-3 лицо как будто светится изнутри.</p>
+          <div class="rev-author">Марина, 29 лет</div>
+          <button type="button" class="rev-more">Читать полностью <span class="arr">→</span></button>
+        </article>
+
+        <article class="rev-card"
+          data-product="Селен"
+          data-author="Елена, 45 лет"
+          data-full="После сорока волосы начали лезть пучками, ногти слоились — списывала на возраст. Гинеколог посоветовала сдать щитовидку и попить селен. Через 6 недель новый рост волос вдоль пробора, ногти перестали ломаться. Утренняя усталость прошла как-то незаметно — просто в один день поняла, что давно не валюсь с ног к обеду.">
+          <div class="rev-product">Селен</div>
+          <p class="rev-preview">Волосы лезли пучками, ногти слоились. Через 6 недель на селене — новый рост вдоль пробора, ногти крепкие, к обеду больше не валюсь с ног.</p>
+          <div class="rev-author">Елена, 45 лет</div>
+          <button type="button" class="rev-more">Читать полностью <span class="arr">→</span></button>
+        </article>
+
+      </div>
+
+      <button type="button" class="rev-arrow rev-next" id="revNext" aria-label="Следующий отзыв">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- ================= MODAL (отзыв полностью) ================= -->
+<div class="modal-overlay" id="reviewModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" aria-hidden="true">
+  <div class="modal">
+    <button type="button" class="modal-close" id="modalClose" aria-label="Закрыть">×</button>
+    <div class="modal-product" id="modalProduct"></div>
+    <h3 id="modalTitle"></h3>
+    <p id="modalText"></p>
+  </div>
+</div>
+
+<!-- ================= FAQ ================= -->
+<section class="faq-section" id="faq">
+  <div class="container">
+    <div class="eyebrow reveal">FAQ</div>
+    <h2 class="reveal">Остались вопросы?</h2>
+    <p class="lead reveal">Коротко о главном — от курса приёма до состава.</p>
+    <div class="faq-wrap reveal" id="faqList">
+      <div class="faq-item">
+        <button class="faq-question" type="button" aria-expanded="false">
+          <span>Как долго принимать курс?</span>
+          <span class="faq-ic" aria-hidden="true">+</span>
+        </button>
+        <div class="faq-answer"><div class="faq-answer-inner">
+          Рекомендуемый курс — 30 дней. Для устойчивого результата можно продлить до 2–3 месяцев, затем сделать перерыв 1–2 недели.
+        </div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question" type="button" aria-expanded="false">
+          <span>Можно ли сочетать несколько продуктов?</span>
+          <span class="faq-ic" aria-hidden="true">+</span>
+        </button>
+        <div class="faq-answer"><div class="faq-answer-inner">
+          Да, наши формулы созданы так, чтобы дополнять друг друга. Например, Магний вечером и Омега утром — отличная пара. Если сомневаетесь, пройдите квиз или шкалу подбора.
+        </div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question" type="button" aria-expanded="false">
+          <span>Есть ли побочные эффекты?</span>
+          <span class="faq-ic" aria-hidden="true">+</span>
+        </button>
+        <div class="faq-answer"><div class="faq-answer-inner">
+          При соблюдении дозировки побочные эффекты крайне редки. В составе нет искусственных добавок, глютена и сахара. При индивидуальной непереносимости компонентов проконсультируйтесь с врачом.
+        </div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question" type="button" aria-expanded="false">
+          <span>Через сколько ждать результат?</span>
+          <span class="faq-ic" aria-hidden="true">+</span>
+        </button>
+        <div class="faq-answer"><div class="faq-answer-inner">
+          Первые изменения (качество сна, бодрость) ощущаются через 1–2 недели. Для накопительного эффекта (сияние кожи, укрепление иммунитета) требуется 3–4 недели регулярного приёма.
+        </div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question" type="button" aria-expanded="false">
+          <span>Чем вы отличаетесь от аптечных аналогов?</span>
+          <span class="faq-ic" aria-hidden="true">+</span>
+        </button>
+        <div class="faq-answer"><div class="faq-answer-inner">
+          Мы используем только биодоступные формы (хелаты, липосомы) в проверенных дозировках. В составе нет технических примесей, красителей и лишних наполнителей — только активный ингредиент.
+        </div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= PRODUCT MODAL ================= -->
+<div class="modal-overlay" id="productModal" aria-hidden="true">
+  <div class="modal-window" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <button type="button" class="modal-close" id="modalClose" aria-label="Закрыть">×</button>
+    <h3 id="modalTitle"></h3>
+    <p class="modal-desc" id="modalDesc"></p>
+    <ul class="modal-benefits" id="modalBenefits"></ul>
+    <div class="modal-dose" id="modalDose"></div>
+  </div>
+</div>
+
 <!-- ================= FOOTER ================= -->
 <footer>
   <div class="container row">
-    <span>© Healthessens, 2024. Гармония вашего здоровья.</span>
+    <span>© healthessens, 2024. гармония вашего здоровья</span>
   </div>
 </footer>
 
@@ -588,40 +1132,59 @@ footer .row span:first-child{color:var(--ink-soft)}
     if (!box) return;
     var QUESTIONS = [
       {
-        title: 'Что вас беспокоит в первую очередь?',
+        title: 'Что вас беспокоит чаще всего?',
         options: [
-          { label: 'Плохо засыпаю',  key: 'magnesium' },
-          { label: 'Часто болею',    key: 'd3k2' },
-          { label: 'Тусклая кожа',   key: 'omega3' },
-          { label: 'Всё вместе',     key: 'selenium' }
+          { label: 'Сон',                    weights: { magnesium:3 } },
+          { label: 'Усталость, апатия',      weights: { d3k2:2, magnesium:1 } },
+          { label: 'Кожа, волосы',           weights: { omega3:2, selenium:1 } },
+          { label: 'Иммунитет',              weights: { d3k2:2, selenium:1 } }
         ]
       },
       {
-        title: 'Какой у вас образ жизни?',
+        title: 'Где и как вы живёте?',
         options: [
-          { label: 'Много стресса',  key: 'magnesium' },
-          { label: 'Мало солнца',    key: 'd3k2' },
-          { label: 'Важна красота',  key: 'omega3' },
-          { label: 'Большой город',  key: 'selenium' }
+          { label: 'Большой город, стресс',  weights: { magnesium:2, selenium:1 } },
+          { label: 'Мало солнца / север',    weights: { d3k2:3 } },
+          { label: 'Частые перелёты',        weights: { selenium:2, omega3:1 } },
+          { label: 'Активный спорт',         weights: { magnesium:2, omega3:1 } }
         ]
       },
       {
-        title: 'Какой результат хотите ощутить через месяц?',
+        title: 'Как у вас с питанием?',
         options: [
-          { label: 'Крепкий сон',         key: 'magnesium' },
-          { label: 'Энергия и иммунитет', key: 'd3k2' },
-          { label: 'Сияющая кожа',        key: 'omega3' },
-          { label: 'Общее укрепление',    key: 'selenium' }
+          { label: 'Редко рыба и морепродукты', weights: { omega3:3 } },
+          { label: 'Мало овощей и зелени',      weights: { magnesium:2, selenium:1 } },
+          { label: 'Много кофе',                weights: { magnesium:2 } },
+          { label: 'Всё сбалансировано',        weights: { d3k2:1, omega3:1 } }
+        ]
+      },
+      {
+        title: 'Что важнее прямо сейчас?',
+        options: [
+          { label: 'Высыпаться',         weights: { magnesium:3 } },
+          { label: 'Больше энергии',     weights: { d3k2:2, magnesium:1 } },
+          { label: 'Сияющая кожа',       weights: { omega3:3 } },
+          { label: 'Защита от вирусов',  weights: { d3k2:2, selenium:2 } }
+        ]
+      },
+      {
+        title: 'Сколько вам лет?',
+        options: [
+          { label: 'До 30',    weights: { magnesium:1, omega3:1 } },
+          { label: '30–40',    weights: { magnesium:1, d3k2:1, omega3:1 } },
+          { label: '40–50',    weights: { d3k2:2, selenium:1 } },
+          { label: '50+',      weights: { d3k2:2, selenium:2 } }
         ]
       }
     ];
     var PRODUCTS = {
-      magnesium: { label: 'Магний',  name: 'Магний B6',       desc: 'Глубокий сон и спокойствие.',                   price: '1 500 ₽' },
-      d3k2:      { label: 'D3 + K2', name: 'Витамин D3 + K2', desc: 'Крепкий иммунитет и кости.',                     price: '2 000 ₽' },
-      omega3:    { label: 'Омега-3', name: 'Омега-3',         desc: 'Сияние кожи и ясность ума.',                     price: '3 000 ₽' },
-      selenium:  { label: 'Селен',   name: 'Селен',           desc: 'Антиоксидантная защита и щитовидная железа.',    price: '2 500 ₽' }
+      magnesium: { img:'assets/product-1.png', name:'Магний B6',       desc:'Глубокий сон и спокойствие.',                link:'https://www.wildberries.ru/catalog/302821343/detail.aspx' },
+      omega3:    { img:'assets/product-4.png', name:'Омега-3',         desc:'Сияние кожи и ясность ума.',                 link:'https://www.wildberries.ru/catalog/721550833/detail.aspx' },
+      d3k2:      { img:'assets/product-2.png', name:'Витамин D3 + K2', desc:'Крепкий иммунитет и кости.',                 link:'https://www.wildberries.ru/catalog/431331501/detail.aspx' },
+      selenium:  { img:'assets/product-3.png', name:'Селен',           desc:'Антиоксидантная защита и щитовидная железа.', link:'https://www.wildberries.ru/catalog/302854675/detail.aspx' }
     };
-    var ORDER = ['magnesium','d3k2','omega3','selenium']; // tiebreak order: magnesium wins
+    // tiebreak order: Магний > Омега > D3+K2 > Селен
+    var ORDER = ['magnesium','omega3','d3k2','selenium'];
 
     var states = box.querySelectorAll('.quiz-state');
     var progress = document.getElementById('quizProgress');
@@ -629,6 +1192,7 @@ footer .row span:first-child{color:var(--ink-soft)}
     var qStep = document.getElementById('qStep');
     var qTitle = document.getElementById('qTitle');
     var qOptions = document.getElementById('qOptions');
+    var resultPair = document.getElementById('resultPair');
 
     var current = 0;
     var scores = { magnesium:0, d3k2:0, omega3:0, selenium:0 };
@@ -652,7 +1216,7 @@ footer .row span:first-child{color:var(--ink-soft)}
         b.type = 'button';
         b.className = 'q-opt';
         b.textContent = opt.label;
-        b.addEventListener('click', function(){ answer(opt.key); });
+        b.addEventListener('click', function(){ answer(opt.weights, b); });
         qOptions.appendChild(b);
       });
       // re-trigger fade
@@ -662,26 +1226,61 @@ footer .row span:first-child{color:var(--ink-soft)}
       qState.classList.add('active');
       progress.classList.add('show');
     }
-    function answer(key){
-      if (scores[key] == null) return;
-      scores[key] += 1;
-      if (current < QUESTIONS.length - 1){
-        current += 1;
-        renderQuestion();
-      } else {
-        finish();
-      }
+    function answer(weights, btn){
+      // lock options, mark selected
+      qOptions.querySelectorAll('.q-opt').forEach(function(el){ el.disabled = true; });
+      if (btn) btn.classList.add('is-picked');
+      Object.keys(weights).forEach(function(k){
+        if (scores[k] != null) scores[k] += weights[k];
+      });
+      setTimeout(function(){
+        if (current < QUESTIONS.length - 1){
+          current += 1;
+          renderQuestion();
+        } else {
+          finish();
+        }
+      }, 240);
     }
     function finish(){
-      var best = ORDER[0], bestScore = -1;
-      ORDER.forEach(function(k){
-        if (scores[k] > bestScore){ bestScore = scores[k]; best = k; }
+      // deterministic sort by score desc, then by ORDER
+      var ranked = ORDER.slice().sort(function(a,b){
+        return (scores[b] - scores[a]) || (ORDER.indexOf(a) - ORDER.indexOf(b));
       });
-      var p = PRODUCTS[best];
-      document.getElementById('resultThumb').textContent = p.label;
-      document.getElementById('resultName').textContent = p.name;
-      document.getElementById('resultDesc').textContent = p.desc;
-      document.getElementById('resultPrice').textContent = p.price;
+      var top = ranked.slice(0, 2);
+      // include third if at least 70% of first's score
+      if (scores[ranked[0]] > 0 && scores[ranked[2]] / scores[ranked[0]] >= 0.7){
+        top.push(ranked[2]);
+      }
+      resultPair.innerHTML = '';
+      resultPair.classList.toggle('tri', top.length === 3);
+      top.forEach(function(key, idx){
+        var p = PRODUCTS[key];
+        var card = document.createElement('div');
+        card.className = 'result-pair-card';
+        card.style.animationDelay = (idx * 0.08) + 's';
+        var thumb = document.createElement('div');
+        thumb.className = 'rp-img';
+        var img = document.createElement('img');
+        img.src = p.img; img.alt = p.name; img.loading = 'lazy'; img.decoding = 'async';
+        thumb.appendChild(img);
+        var name = document.createElement('div');
+        name.className = 'rp-name';
+        name.textContent = p.name;
+        var desc = document.createElement('div');
+        desc.className = 'rp-desc';
+        desc.textContent = p.desc;
+        var more = document.createElement('button');
+        more.type = 'button';
+        more.className = 'btn-details btn-details--light rp-more';
+        more.textContent = 'Подробнее';
+        more.setAttribute('data-product', key);
+        card.appendChild(thumb);
+        card.appendChild(name);
+        card.appendChild(desc);
+        card.appendChild(more);
+        resultPair.appendChild(card);
+      });
       show('result');
     }
 
@@ -698,6 +1297,113 @@ footer .row span:first-child{color:var(--ink-soft)}
     });
   })();
 
+  // ---- Product modal ----
+  (function initProductModal(){
+    var overlay = document.getElementById('productModal');
+    if (!overlay) return;
+    var closeBtn = document.getElementById('modalClose');
+    var elTitle = document.getElementById('modalTitle');
+    var elDesc = document.getElementById('modalDesc');
+    var elBenefits = document.getElementById('modalBenefits');
+    var elDose = document.getElementById('modalDose');
+
+    var DETAILS = {
+      magnesium: {
+        title: 'Магний B6 — глубокий сон и спокойствие',
+        desc: 'Высокобиодоступная форма магния в сочетании с витамином B6 для максимального усвоения. Помогает расслабить нервную систему, улучшить качество сна и снизить раздражительность.',
+        benefits: [
+          'Способствует быстрому засыпанию и глубокому сну.',
+          'Снижает уровень стресса и тревожности.',
+          'Поддерживает работу мышц и сердца.'
+        ],
+        dose: 'По 1 капсуле вечером, запивая водой.'
+      },
+      d3k2: {
+        title: 'D3 + K2 — крепкий иммунитет и кости',
+        desc: 'Комбинация двух жирорастворимых витаминов в оптимальной дозировке. D3 отвечает за усвоение кальция и иммунный ответ, K2 направляет кальций в кости, предотвращая отложение в сосудах.',
+        benefits: [
+          'Укрепляет иммунитет и снижает частоту простуд.',
+          'Поддерживает здоровье костей и зубов.',
+          'Улучшает эластичность сосудов.'
+        ],
+        dose: 'По 1 капсуле утром с пищей, содержащей жиры.'
+      },
+      omega3: {
+        title: 'Омега-3 — сияние кожи и ясность ума',
+        desc: 'Высокоочищенные жирные кислоты EPA и DHA из дикого рыбного жира. Увлажняют кожу изнутри, уменьшают воспаления, поддерживают когнитивные функции и здоровье сердца.',
+        benefits: [
+          'Улучшает увлажнённость и эластичность кожи.',
+          'Укрепляет волосы и ногти.',
+          'Повышает концентрацию внимания и память.'
+        ],
+        dose: 'По 1 капсуле утром или днём во время еды.'
+      },
+      selenium: {
+        title: 'Селен — антиоксидантная защита и баланс',
+        desc: 'Органическая форма селена (селенометионин) с высокой усвояемостью. Мощный антиоксидант, защищает клетки от окислительного стресса, поддерживает функцию щитовидной железы и репродуктивное здоровье.',
+        benefits: [
+          'Замедляет процессы старения.',
+          'Укрепляет волосы и ногти, предотвращает ломкость.',
+          'Нормализует работу щитовидной железы.'
+        ],
+        dose: 'По 1 капсуле утром во время еды.'
+      }
+    };
+
+    function open(key){
+      var d = DETAILS[key];
+      if (!d) return;
+      elTitle.textContent = d.title;
+      elDesc.textContent = d.desc;
+      elBenefits.innerHTML = '';
+      d.benefits.forEach(function(b){
+        var li = document.createElement('li');
+        li.textContent = b;
+        elBenefits.appendChild(li);
+      });
+      elDose.innerHTML = '<strong>Приём:</strong> ' + d.dose;
+      overlay.classList.add('is-open');
+      overlay.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+    }
+    function close(){
+      overlay.classList.remove('is-open');
+      overlay.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    }
+
+    // Open triggers (delegated so dynamically rendered quiz cards work)
+    document.addEventListener('click', function(e){
+      var trigger = e.target.closest('.btn-details');
+      if (trigger){
+        var key = trigger.getAttribute('data-product');
+        if (key) open(key);
+      }
+    });
+    // Close: click anywhere in the overlay that is either the overlay itself
+    // or the close button / a child of it. Using delegation is resilient to
+    // any future re-rendering inside the modal.
+    overlay.addEventListener('click', function(e){
+      if (e.target === overlay || e.target.closest('.modal-close, [data-modal-close]')){
+        e.preventDefault();
+        e.stopPropagation();
+        close();
+      }
+    });
+    // Explicit handler on the × button as a safety net
+    if (closeBtn){
+      closeBtn.addEventListener('click', function(e){
+        e.preventDefault();
+        e.stopPropagation();
+        close();
+      });
+    }
+    // Escape to close
+    document.addEventListener('keydown', function(e){
+      if (e.key === 'Escape' && overlay.classList.contains('is-open')) close();
+    });
+  })();
+
   if ('IntersectionObserver' in window){
     var io = new IntersectionObserver(function(entries){
       entries.forEach(function(en){
@@ -711,6 +1417,106 @@ footer .row span:first-child{color:var(--ink-soft)}
   } else {
     document.querySelectorAll('.reveal').forEach(function(el){ el.classList.add('in'); });
   }
+
+  /* ===== FAQ accordion ===== */
+  (function initFaq(){
+    var list = document.getElementById('faqList');
+    if (!list) return;
+    list.addEventListener('click', function(e){
+      var btn = e.target.closest('.faq-question');
+      if (!btn || !list.contains(btn)) return;
+      var item = btn.parentElement;
+      var ans  = item.querySelector('.faq-answer');
+      var ic   = btn.querySelector('.faq-ic');
+      var open = item.classList.toggle('is-open');
+      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      ans.style.maxHeight = open ? (ans.scrollHeight + 'px') : '0px';
+    });
+    // Recompute open items on resize (content reflow)
+    window.addEventListener('resize', function(){
+      list.querySelectorAll('.faq-item.is-open .faq-answer').forEach(function(ans){
+        ans.style.maxHeight = ans.scrollHeight + 'px';
+      });
+    });
+  })();
+
+  /* ===== Reviews carousel + modal ===== */
+  (function initReviews(){
+    var track   = document.getElementById('reviewsTrack');
+    var prevBtn = document.getElementById('revPrev');
+    var nextBtn = document.getElementById('revNext');
+    if (!track || !prevBtn || !nextBtn) return;
+
+    function cardStep(){
+      var card = track.querySelector('.rev-card');
+      if (!card) return 340;
+      var gap = parseInt(getComputedStyle(track).columnGap || getComputedStyle(track).gap, 10) || 18;
+      return card.getBoundingClientRect().width + gap;
+    }
+    function updateArrows(){
+      var max = track.scrollWidth - track.clientWidth - 2;
+      prevBtn.disabled = track.scrollLeft <= 1;
+      nextBtn.disabled = track.scrollLeft >= max;
+    }
+    prevBtn.addEventListener('click', function(){ track.scrollBy({ left: -cardStep(), behavior: 'smooth' }); });
+    nextBtn.addEventListener('click', function(){ track.scrollBy({ left:  cardStep(), behavior: 'smooth' }); });
+    track.addEventListener('scroll', updateArrows, { passive: true });
+    window.addEventListener('resize', updateArrows);
+    // initial
+    setTimeout(updateArrows, 0);
+
+    /* Modal */
+    var modal    = document.getElementById('reviewModal');
+    var mClose   = document.getElementById('modalClose');
+    var mProduct = document.getElementById('modalProduct');
+    var mTitle   = document.getElementById('modalTitle');
+    var mText    = document.getElementById('modalText');
+    if (!modal) return;
+
+    function openModal(card){
+      mProduct.textContent = card.getAttribute('data-product') || '';
+      mTitle.textContent   = card.getAttribute('data-author')  || '';
+      mText.textContent    = card.getAttribute('data-full')    || '';
+      modal.classList.add('open');
+      modal.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeModal(){
+      modal.classList.remove('open');
+      modal.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    }
+
+    // drag-vs-click guard so horizontal scroll doesn't open modal
+    var downX = null, downY = null, moved = false;
+    track.addEventListener('pointerdown', function(e){
+      downX = e.clientX; downY = e.clientY; moved = false;
+    });
+    track.addEventListener('pointermove', function(e){
+      if (downX === null) return;
+      if (Math.abs(e.clientX - downX) > 6 || Math.abs(e.clientY - downY) > 6) moved = true;
+    });
+
+    track.querySelectorAll('.rev-card').forEach(function(card){
+      card.addEventListener('click', function(){
+        if (moved) { moved = false; return; }
+        openModal(card);
+      });
+      var more = card.querySelector('.rev-more');
+      if (more){
+        more.addEventListener('click', function(e){
+          e.stopPropagation();
+          openModal(card);
+        });
+      }
+    });
+
+    mClose.addEventListener('click', closeModal);
+    modal.addEventListener('click', function(e){ if (e.target === modal) closeModal(); });
+    document.addEventListener('keydown', function(e){
+      if (e.key === 'Escape' && modal.classList.contains('open')) closeModal();
+    });
+  })();
 })();
 </script>
 
